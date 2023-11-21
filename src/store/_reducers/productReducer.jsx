@@ -133,25 +133,109 @@ const productReducer = (state = productsInitialState, { type, payload }) => {
 };
 
 const cartInitialState = {
-    cart: []
+    products: []
 }
 
 const cartReducer = (state = cartInitialState, {type,payload}) => {
     switch (type) {
         case ADD_TO_CART:
-            return {
-                ...state,
-                cart: [...state.cart, {
-                    id: payload.id,
-                    name: payload.name,
-                    brand: payload.brand,
-                    quantity: payload.quantity
-                }]
-            };
+            let findProduct = state.products.find(x=>x.id === payload.id);
+            if(findProduct){
+                return {
+                    ...state,
+                    products: state.products.map(product =>
+                        product.id === payload.id ? { ...product, qty: product.qty+1} : product,
+                    ),
+                } 
+            }else{
+                return{
+                    ...state,
+                    products: [...state.products, {...payload,qty:1}]
+                    
+                }
+            }
+            
+        case DELETE_FROM_CART:
+            const isExist = state.products.find(x=>x.id === payload.id);
+            if(isExist.qty === 1){
+                return {
+                    ...state,
+                    products: state.products.filter(x=>x.id !== isExist.id)     
+                };
+            }else{
+                return {
+                    ...state,
+                    products:state.products.map(x=>x.id === payload.id ? {...x, qty: x.qty-1} : x)
+                }
+            }
+            
         default:
             return state;
     }
+    // switch (type) {
+    //     case ADD_TO_CART:
+    //         let findProduct = state.products.find(x=>x.id === payload.id);
+    //         if(findProduct){
+    //             return {
+    //                 ...state,
+    //                 products: state.products.map(product =>
+    //                     product.id === findProduct.id ? { ...product, qty: product.qty+1} : product,
+    //                 ),
+    //             }
+    //         }else{
+    //             return{
+    //                 ...state,
+    //                 products: {...payload,qty:1}
+                    
+    //             }
+    //         }
+            
+    //     case DELETE_FROM_CART:
+    //         const isExist = state.products.find(x=>x.id === payload.id);
+    //         if(isExist.qty === 1){
+    //             return {
+    //                 ...state,
+    //                 products: state.products.filter(x=>x.id === isExist.id)     
+    //             };
+    //         }else{
+    //             return {
+    //                 ...state,
+    //                 products:state.products.map(x=>x.id === payload.id ? {...x, qty: x.qty-1} : x)
+    //             }
+    //         }
+            
+    //     default:
+    //         return state;
+    // }
 
 };
 
-export {signupReducer,loginReducer,productReducer,cartReducer};
+export { signupReducer, loginReducer, productReducer, cartReducer };
+
+
+// const cart = [];
+// const cartReducer = (state = cart, action) => {
+//     const product = action.payload;
+//     switch (action.type) {
+//         case ADD_TO_CART:
+//             const exist = state.find(x => x.id === product.id)
+//             if (exist) {
+//                 return state.map(x => x.id === product.id ? { ...x, qty: x.qty + 1 } : x);
+//             } else {
+//                 const product = action.payload;
+//                 return [...state, { ...product, qty: 1, }]
+//             }
+
+//         case DELETE_FROM_CART:
+//             const isExist = state.find(x => x.id === product.id);
+//             if (isExist.qty === 1) {
+//                 return state.filter(x => x.id !== isExist.id);
+//             } else {
+//                 return state.map(x => x.id === product.id ? { ...x, qty: x.qty - 1 } : x);
+//             }
+
+//         default: return state
+//     }
+// }
+
+// export default cartReducer 

@@ -14,7 +14,6 @@ let Links = [
   { label: "Contact", path: "/Contact" },
   { label: "Login", path: "/login" },
   { label: "Signup", path: "/signup" },
-  { label: "Manage product", path: "/manageproduct" },
   { label: "My Account", path: "/myaccount" },
 ];
 

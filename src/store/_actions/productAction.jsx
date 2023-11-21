@@ -14,20 +14,20 @@ import {
 } from './actionType';
 
 export const signup = (props) => {
-    return async (keep) => {
+    return async (dispatch) => {
         try {
-            keep({
+            dispatch({
                 type: REQUEST_SIGNUP,
             });
             const res = await axios.post(
-                "https://654cc2d477200d6ba8595e66.mockapi.io/user",
+                "https://654f1829358230d8f0cd0161.mockapi.io/shophubAuthApi/user",
                 props
             );
-            keep({
+            dispatch({
                 type: SUCCESS_SIGNUP,
             });
         } catch (error) {
-            keep({
+            dispatch({
                 type: FAIL_SIGNUP,
                 payload: error.message
             });
@@ -38,19 +38,19 @@ export const signup = (props) => {
 export const login = (props) => {
     let { email, password } = props;
 
-    return async (keep) => {
+    return async (dispatch) => {
         try {
-            keep({
+            dispatch({
                 type: REQUEST_LOGIN,
             });
             const response = await axios.get(
-                "https://654cc2d477200d6ba8595e66.mockapi.io/user"
+                "https://654f1829358230d8f0cd0161.mockapi.io/shophubAuthApi/user"
             );
             let filteredData = response.data.filter((e) => {
                 return e.email === email && e.password === password;
             });
             if (filteredData.length !== 0) {
-                keep({
+                dispatch({
                     type: SUCCESS_LOGIN,
                     payload: filteredData[0].id,
                 });
@@ -63,7 +63,7 @@ export const login = (props) => {
             localStorage.setItem("user", filteredData[0].id);
             localStorage.setItem("isLoggedIn", true);
         } catch (error) {
-            keep({
+            dispatch({
                 type: FAIL_LOGIN,
                 payload: error.message,
             });
@@ -72,20 +72,20 @@ export const login = (props) => {
 };
 
 export const fetchProducts = (product) => {
-    return async (keep) => {
+    return async (dispatch) => {
         try {
-            keep({ type: REQUEST_FETCH_PRODUCTS });
+            dispatch({ type: REQUEST_FETCH_PRODUCTS });
             const response = await axios.get("https://fakestoreapi.com/products", {
                 params: {
                     sort: product,
                 },
             });
-            keep({
+            dispatch({
                 type: SUCCESS_FETCH_PRODUCTS,
                 payload: response.data,
             });
         } catch (error) {
-            keep({ type: FAIL_FETCH_PRODUCTS, payload: error.message });
+            dispatch({ type: FAIL_FETCH_PRODUCTS, payload: error.message });
         }
     };
 };

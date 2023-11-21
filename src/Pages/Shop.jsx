@@ -22,9 +22,9 @@ const Shop = () => {
     };
 
     product_func();
-  }, []);
+  }, [id]);
 
-  let handleCart = (product) => {
+  let handleCart = (pro) => {
     if (isLoggedIn) {
       dispatch({ type: ADD_TO_CART, payload: product });
       navigate(`/cart`);

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { LoginSchema } from "./Schema";
 import { login } from "../store/_actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
+
 // import Loader from "./Loader";
 
 const initialValues = {
@@ -18,6 +19,7 @@ const Login = () => {
   );
   let [loginMessage, setLoginMessage] = useState(false);
   let dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   let { values, errors, handleBlur, handleChange, handleSubmit, touched } =
@@ -31,6 +33,9 @@ const Login = () => {
         }, 1000);
 
         action.resetForm();
+        if(isLoggedIn===true){
+          navigate('/')
+        }
       },
     });
 

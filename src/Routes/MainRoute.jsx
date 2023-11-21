@@ -8,21 +8,14 @@ import Shop from '../Pages/Shop';
 import MyAccount from '../Pages/MyAccount';
 import NotFoundPage from '../Pages/NotFoundPage';
 import Home from '../Pages/Home';
-import ManageProduct from '../Pages/ManageProduct';
+import Blog from '../Pages/Blog';
 
 const MainRoute = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/blog" element={<Blog />} />
       <Route path="/shop/:id" element={<Shop />} />
-      <Route
-        path="/manageproduct"
-        element={
-          <PrivateRoute>
-            <ManageProduct />
-          </PrivateRoute>
-        }
-      />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route
@@ -39,4 +32,4 @@ const MainRoute = () => {
   )
 }
 
-export default MainRoute
+export default MainRoute;
